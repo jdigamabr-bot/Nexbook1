@@ -1,0 +1,25 @@
+
+{
+  "id": "./",
+  "name": "NEXBOOK",
+  "short_name": "NEXBOOK",
+  "description": "Your smart student notebook and study companion",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "theme_color": "#10102b",
+  "background_color": "#10102b",
+  "icons": [
+    {
+      "src": "./icon1.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "./icon.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
