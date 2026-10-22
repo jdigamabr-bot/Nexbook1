@@ -1,0 +1,1052 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  
+<link rel="icon" type="image/svg+xml"
+href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%23071835'/%3E%3Ctext x='50' y='65' font-size='55' text-anchor='middle'%3E📚%3C/text%3E%3C/svg%3E">
+
+<head>
+  
+<link rel="manifest" href="./manifest.json">
+<meta name="theme-color" content="#10102b">
+
+  
+<meta name="theme-color" content="#6c63ff">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#111827">
+<title>NEXBOOK — Personal Life Manager</title>
+
+<style>
+:root {
+  --bg:#0b1020;
+  --panel:#141c2f;
+  --panel2:#1b2740;
+  --text:#edf2ff;
+  --muted:#9caac5;
+  --accent:#8b7cff;
+  --accent2:#36d6bd;
+  --border:#2a3650;
+  --danger:#ff6377;
+  --success:#43d9a3;
+  --shadow:0 12px 30px #0002;
+}
+body.light {
+  --bg:#f3f5fb;
+  --panel:#ffffff;
+  --panel2:#edf0fa;
+  --text:#182033;
+  --muted:#69738a;
+  --accent:#6757e8;
+  --accent2:#087f73;
+  --border:#dce2ef;
+  --danger:#d93650;
+  --success:#12805c;
+  --shadow:0 10px 25px #17203b0d;
+}
+* {box-sizing:border-box}
+body {
+  margin:0;
+  background:var(--bg);
+  color:var(--text);
+  font-family:system-ui,-apple-system,Segoe UI,sans-serif;
+  transition:background .2s,color .2s;
+}
+button,input,textarea,select {font:inherit}
+button {cursor:pointer}
+button:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible {
+  outline:2px solid var(--accent);
+  outline-offset:2px;
+}
+.app {max-width:1200px;margin:auto;padding:18px}
+header {
+  display:flex;align-items:center;justify-content:space-between;
+  gap:12px;flex-wrap:wrap;margin-bottom:20px;
+}
+.brand {display:flex;align-items:center;gap:12px}
+.logo {
+  width:46px;height:46px;border-radius:15px;
+  display:grid;place-items:center;font-size:24px;
+  background:linear-gradient(135deg,#8b7cff,#36d6bd);
+  color:#10152a;font-weight:900;
+}
+h1,h2,h3,p {margin-top:0}
+h1 {font-size:23px;margin-bottom:2px}
+h2 {font-size:19px}
+h3 {font-size:15px}
+.subtitle,.muted {color:var(--muted);font-size:13px}
+.header-actions,.actions,.filters {
+  display:flex;align-items:center;gap:8px;flex-wrap:wrap
+}
+.btn {
+  border:1px solid var(--border);background:var(--panel2);
+  color:var(--text);padding:10px 13px;border-radius:11px;
+  font-weight:650;font-size:13px;
+}
+.btn.primary {background:var(--accent);color:white;border-color:transparent}
+.btn.success {background:var(--success);color:#09241c;border:0}
+.btn.danger {background:var(--danger);color:white;border:0}
+.btn.small {padding:7px 10px;font-size:12px}
+.btn:active {transform:scale(.98)}
+.tabs {
+  display:flex;gap:8px;overflow-x:auto;padding:4px 0 14px;
+  scrollbar-width:thin;
+}
+.tab {
+  white-space:nowrap;border:1px solid var(--border);
+  background:var(--panel);color:var(--muted);
+  padding:11px 15px;border-radius:12px;font-size:13px;
+}
+.tab.active {background:var(--accent);color:white;border-color:transparent}
+.page {display:none}
+.page.active {display:block}
+.panel {
+  background:var(--panel);border:1px solid var(--border);
+  border-radius:17px;padding:17px;margin-bottom:15px;
+  box-shadow:var(--shadow);min-width:0;
+}
+.hero {
+  padding:23px;border-radius:20px;
+  background:linear-gradient(120deg,#443b91,#1c766e);
+  color:white;margin-bottom:16px;
+}
+.hero h2 {font-size:25px;margin-bottom:7px}
+.hero p {margin-bottom:0;color:#e3e9ff;font-size:14px}
+.grid {display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.two {display:grid;grid-template-columns:1.2fr .8fr;gap:15px}
+.stat {background:var(--panel2);border-radius:14px;padding:15px;min-width:0}
+.stat .icon {font-size:21px}
+.stat .number {font-size:23px;font-weight:800;margin:8px 0;overflow-wrap:anywhere}
+.stat .label {font-size:12px;color:var(--muted)}
+.section-head {
+  display:flex;justify-content:space-between;align-items:center;
+  gap:10px;flex-wrap:wrap;margin-bottom:14px
+}
+.section-head h2 {margin-bottom:0}
+.field {display:flex;flex-direction:column;gap:6px;min-width:0}
+.field label {font-size:12px;color:var(--muted)}
+input,textarea,select {
+  width:100%;min-width:0;padding:11px 12px;border-radius:10px;
+  border:1px solid var(--border);background:var(--bg);
+  color:var(--text);
+}
+textarea {resize:vertical;min-height:90px}
+.form-grid {display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.full {grid-column:1/-1}
+.form-actions {display:flex;gap:8px;flex-wrap:wrap;margin-top:13px}
+.list {display:flex;flex-direction:column;gap:10px}
+.item {
+  display:flex;align-items:flex-start;gap:11px;
+  border:1px solid var(--border);background:var(--panel);
+  border-radius:13px;padding:13px;min-width:0;
+}
+.item-main {flex:1;min-width:0}
+.item-title {font-weight:700;overflow-wrap:anywhere;margin-bottom:5px}
+.item-desc {font-size:13px;color:var(--muted);white-space:pre-wrap;overflow-wrap:anywhere}
+.item.done .item-title {text-decoration:line-through;opacity:.65}
+.item.done {opacity:.8}
+.item-actions {display:flex;gap:5px;flex-wrap:wrap;margin-top:9px}
+.check {width:20px;height:20px;accent-color:var(--accent);flex-shrink:0;margin-top:2px}
+.pill {
+  display:inline-block;padding:4px 8px;border-radius:20px;
+  background:var(--panel2);font-size:11px;color:var(--muted);margin:3px 3px 0 0
+}
+.pill.good {color:var(--success)}
+.pill.bad {color:var(--danger)}
+.progress {height:9px;background:var(--panel2);border-radius:20px;overflow:hidden;margin:10px 0}
+.progress span {display:block;height:100%;background:var(--accent2);width:0%;transition:width .2s}
+.empty {padding:25px;text-align:center;color:var(--muted);font-size:13px}
+.money {font-weight:800;font-size:15px}
+.money.in {color:var(--success)}
+.money.out {color:var(--danger)}
+.note-card {white-space:pre-wrap;overflow-wrap:anywhere}
+footer {text-align:center;padding:24px;color:var(--muted);font-size:12px}
+#toast {
+  position:fixed;bottom:20px;left:50%;transform:translateX(-50%);
+  max-width:90%;padding:12px 17px;border-radius:12px;
+  background:var(--text);color:var(--bg);font-size:13px;
+  box-shadow:var(--shadow);z-index:1000;display:none
+}
+.modal-backdrop {
+  position:fixed;inset:0;background:#0009;z-index:900;
+  display:none;align-items:center;justify-content:center;padding:18px;
+}
+.modal-backdrop.open {display:flex}
+.modal {
+  width:100%;max-width:390px;background:var(--panel);
+  border:1px solid var(--border);border-radius:19px;padding:23px;
+  box-shadow:0 20px 60px #0005;
+}
+.modal h2 {margin-bottom:8px}
+.modal p {color:var(--muted);font-size:14px;line-height:1.5}
+.modal-actions {display:flex;justify-content:flex-end;gap:10px;margin-top:20px}
+.danger-word {color:var(--danger);font-weight:800}
+@media(max-width:760px) {
+  .grid {grid-template-columns:repeat(2,minmax(0,1fr))}
+  .two {grid-template-columns:1fr}
+  .app {padding:12px}
+  .hero {padding:19px}
+  .hero h2 {font-size:22px}
+  .panel {padding:14px}
+}
+@media(max-width:390px) {
+  .form-grid {grid-template-columns:1fr}
+  .full {grid-column:auto}
+  h1 {font-size:20px}
+  .stat .number {font-size:20px}
+}
+</style>
+</head>
+
+<body>
+<div class="app">
+
+<header>
+  <div class="brand">
+    <div class="logo">N</div>
+    <div>
+      <h1>NEXBOOK</h1>
+      <div class="subtitle">Your personal life management system</div>
+    </div>
+  </div>
+  <div class="header-actions">
+    <button class="btn" id="themeBtn" type="button">☀️ Theme</button>
+    <button class="btn" id="exportBtn" type="button">⬇ Backup</button>
+    <button class="btn" id="importBtn" type="button">⬆ Restore</button>
+    <input id="importFile" type="file" accept=".json,application/json" hidden>
+  </div>
+</header>
+
+<nav class="tabs" aria-label="Main navigation">
+  <button class="tab active" data-page="dashboard">🏠 Dashboard</button>
+  <button class="tab" data-page="tasks">✅ Daily Tasks</button>
+  <button class="tab" data-page="finance">💰 Hisab Kitab</button>
+  <button class="tab" data-page="notes">📝 Notes</button>
+  <button class="tab" data-page="goals">🎯 Goals</button>
+  <button class="tab" data-page="settings">⚙️ Settings</button>
+</nav>
+
+<!-- DASHBOARD -->
+<section class="page active" id="dashboard">
+  <div class="hero">
+    <h2 id="greeting">Welcome to NEXBOOK 👋</h2>
+    <p id="todayText"></p>
+    <p style="margin-top:10px">Plan your day. Track your progress. Build your future.</p>
+  </div>
+
+  <div class="grid" style="margin-bottom:15px">
+    <div class="stat"><div class="icon">📋</div><div class="number" id="statTasks">0/0</div><div class="label">Tasks completed</div></div>
+    <div class="stat"><div class="icon">🎯</div><div class="number" id="statGoals">0</div><div class="label">Active goals</div></div>
+    <div class="stat"><div class="icon">📈</div><div class="number" id="statIncome">₹0</div><div class="label">Total income</div></div>
+    <div class="stat"><div class="icon">📉</div><div class="number" id="statExpense">₹0</div><div class="label">Total expense</div></div>
+  </div>
+
+  <div class="two">
+    <div class="panel">
+      <div class="section-head"><h2>Today's Tasks</h2><button class="btn small primary" data-go="tasks">View all →</button></div>
+      <div id="dashboardTasks" class="list"></div>
+    </div>
+    <div>
+      <div class="panel">
+        <h2>💳 Financial Overview</h2>
+        <div class="muted">Total balance (all recorded transactions)</div>
+        <div class="number" id="statBalance" style="font-size:29px;font-weight:800;margin:12px 0">₹0</div>
+        <div class="progress"><span id="taskProgress"></span></div>
+        <div class="muted" id="progressText">Your daily progress: 0%</div>
+      </div>
+      <div class="panel">
+        <div class="section-head"><h2>Recent Notes</h2><button class="btn small" data-go="notes">Open →</button></div>
+        <div id="dashboardNotes" class="list"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TASKS -->
+<section class="page" id="tasks">
+  <div class="panel">
+    <div class="section-head"><h2>✅ Daily Activity Notebook</h2><span class="pill" id="taskCount">0 tasks</span></div>
+    <form id="taskForm">
+      <div class="form-grid">
+        <div class="field full"><label for="taskTitle">Task / Activity *</label><input id="taskTitle" maxlength="150" required placeholder="e.g. Complete DBMS assignment"></div>
+        <div class="field"><label for="taskDate">Date *</label><input id="taskDate" type="date" required></div>
+        <div class="field"><label for="taskPriority">Priority</label><select id="taskPriority"><option>Medium</option><option>High</option><option>Low</option></select></div>
+        <div class="field"><label for="taskCategory">Category</label><select id="taskCategory"><option>Personal</option><option>Study</option><option>Work</option><option>Health</option><option>Shopping</option><option>Other</option></select></div>
+        <div class="field"><label for="taskTime">Time (optional)</label><input id="taskTime" type="time"></div>
+        <div class="field full"><label for="taskDesc">Details (optional)</label><textarea id="taskDesc" maxlength="2000" placeholder="What do you want to do?"></textarea></div>
+      </div>
+      <div class="form-actions">
+        <button class="btn primary" type="submit" id="taskSubmit">＋ Add Task</button>
+        <button class="btn" type="button" id="taskCancel" hidden>Cancel Edit</button>
+      </div>
+    </form>
+  </div>
+
+  <div class="panel">
+    <div class="section-head"><h2>Your Activities</h2></div>
+    <div class="filters" style="margin-bottom:13px">
+      <div style="flex:1;min-width:150px"><input id="taskSearch" placeholder="🔎 Search tasks..."></div>
+      <select id="taskFilter" style="width:auto;max-width:100%">
+        <option value="all">All tasks</option><option value="pending">Pending</option><option value="done">Completed</option>
+      </select>
+      <input id="taskDateFilter" type="date" style="width:auto;max-width:100%">
+      <button class="btn small" id="clearTaskFilters" type="button">Clear filters</button>
+    </div>
+    <div id="taskList" class="list"></div>
+  </div>
+</section>
+
+<!-- FINANCE -->
+<section class="page" id="finance">
+  <div class="grid" style="margin-bottom:15px">
+    <div class="stat"><div class="label">Income</div><div class="number" id="finIncome">₹0</div></div>
+    <div class="stat"><div class="label">Expenses</div><div class="number" id="finExpense">₹0</div></div>
+    <div class="stat"><div class="label">Balance</div><div class="number" id="finBalance">₹0</div></div>
+    <div class="stat"><div class="label">Transactions</div><div class="number" id="finCount">0</div></div>
+  </div>
+  <div class="panel">
+    <div class="section-head"><h2>💰 Add Transaction</h2></div>
+    <form id="financeForm">
+      <div class="form-grid">
+        <div class="field"><label for="finType">Type</label><select id="finType"><option value="expense">Expense</option><option value="income">Income</option></select></div>
+        <div class="field"><label for="finAmount">Amount (₹) *</label><input id="finAmount" type="number" min="0.01" max="1000000000000" step="0.01" required placeholder="e.g. 250"></div>
+        <div class="field"><label for="finCategory">Category</label><select id="finCategory"><option>Food</option><option>Travel</option><option>Education</option><option>Shopping</option><option>Salary</option><option>Business</option><option>Fees</option><option>Bills</option><option>Other</option></select></div>
+        <div class="field"><label for="finDate">Date *</label><input id="finDate" type="date" required></div>
+        <div class="field full"><label for="finDesc">Description *</label><input id="finDesc" maxlength="150" required placeholder="e.g. College books"></div>
+      </div>
+      <div class="form-actions"><button class="btn primary" type="submit">＋ Save Transaction</button></div>
+    </form>
+  </div>
+  <div class="panel">
+    <div class="section-head"><h2>Transaction History</h2></div>
+    <div class="filters" style="margin-bottom:13px">
+      <input id="finSearch" placeholder="Search transactions..." style="flex:1;min-width:140px">
+      <select id="finFilter" style="width:auto"><option value="all">All types</option><option value="income">Income</option><option value="expense">Expense</option></select>
+    </div>
+    <div id="financeList" class="list"></div>
+  </div>
+</section>
+
+<!-- NOTES -->
+<section class="page" id="notes">
+  <div class="panel">
+    <div class="section-head"><h2>📝 Quick Notes</h2></div>
+    <form id="noteForm">
+      <div class="form-grid">
+        <div class="field full"><label for="noteTitle">Note title *</label><input id="noteTitle" maxlength="150" required placeholder="e.g. Project ideas"></div>
+        <div class="field full"><label for="noteBody">Your note *</label><textarea id="noteBody" maxlength="10000" required placeholder="Write your thoughts, ideas or daily record..."></textarea></div>
+      </div>
+      <div class="form-actions"><button class="btn primary" type="submit" id="noteSubmit">＋ Save Note</button><button class="btn" type="button" id="noteCancel" hidden>Cancel Edit</button></div>
+    </form>
+  </div>
+  <div class="panel">
+    <div class="section-head"><h2>Saved Notes</h2></div>
+    <input id="noteSearch" placeholder="🔎 Search notes..." style="margin-bottom:13px">
+    <div id="noteList" class="list"></div>
+  </div>
+</section>
+
+<!-- GOALS -->
+<section class="page" id="goals">
+  <div class="panel">
+    <div class="section-head"><h2>🎯 Goals & Habits</h2></div>
+    <form id="goalForm">
+      <div class="form-grid">
+        <div class="field full"><label for="goalTitle">Goal *</label><input id="goalTitle" maxlength="150" required placeholder="e.g. Learn JavaScript"></div>
+        <div class="field"><label for="goalTarget">Target date</label><input id="goalTarget" type="date"></div>
+        <div class="field"><label for="goalCategory">Category</label><select id="goalCategory"><option>Study</option><option>Career</option><option>Health</option><option>Finance</option><option>Personal</option><option>Other</option></select></div>
+        <div class="field full"><label for="goalDesc">Why is this goal important? (optional)</label><textarea id="goalDesc" maxlength="1500" placeholder="Describe your goal..."></textarea></div>
+      </div>
+      <div class="form-actions"><button class="btn primary" type="submit">＋ Add Goal</button></div>
+    </form>
+  </div>
+  <div class="panel">
+    <div class="section-head"><h2>Your Goals</h2></div>
+    <div id="goalList" class="list"></div>
+  </div>
+</section>
+
+<!-- SETTINGS -->
+<section class="page" id="settings">
+  <div class="panel">
+    <h2>⚙️ App Settings</h2>
+    <form id="profileForm">
+      <div class="form-grid">
+        <div class="field full"><label for="userName">Your display name</label><input id="userName" maxlength="60" placeholder="Enter your name"></div>
+        <div class="field full"><label for="currencySelect">Currency</label><select id="currencySelect"><option value="INR">Indian Rupee (₹ INR)</option><option value="USD">US Dollar ($ USD)</option><option value="EUR">Euro (€ EUR)</option><option value="GBP">British Pound (£ GBP)</option></select></div>
+      </div>
+      <div class="form-actions"><button class="btn primary" type="submit">Save Settings</button></div>
+    </form>
+  </div>
+  <div class="panel">
+    <h2>💾 Backup & Restore</h2>
+    <p class="muted">Export your data as a JSON file and keep it somewhere safe. Restore a backup to replace the current app data.</p>
+    <div class="actions">
+      <button class="btn primary" id="exportBtn2" type="button">⬇ Export Backup</button>
+      <button class="btn" id="importBtn2" type="button">⬆ Import Backup</button>
+    </div>
+  </div>
+  <div class="panel">
+    <h2>🛡️ Privacy & Data</h2>
+    <p class="muted">Your records are stored in this browser on this device. Clearing browser storage, uninstalling the browser, or switching browsers may remove or hide your data. Export backups regularly.</p>
+    <button class="btn danger" id="resetBtn" type="button">Reset All App Data</button>
+  </div>
+  <div class="panel">
+    <h2>About NEXBOOK</h2>
+    <p class="muted">Personal productivity, daily records, notes, goals and finance tracking in one place.</p>
+    <span class="pill">Version 2.0</span><span class="pill">Mobile friendly</span><span class="pill">Offline capable after loading</span>
+  </div>
+</section>
+
+<footer>NEXBOOK • Your life, organized. ✨</footer>
+</div>
+
+<!-- Reusable Yes / No confirmation dialog -->
+<div class="modal-backdrop" id="confirmBackdrop" role="dialog" aria-modal="true" aria-labelledby="confirmTitle">
+  <div class="modal">
+    <h2 id="confirmTitle">Are you sure?</h2>
+    <p id="confirmMessage">Do you want to continue?</p>
+    <div class="modal-actions">
+      <button class="btn" id="confirmNo" type="button">No, Cancel</button>
+      <button class="btn danger" id="confirmYes" type="button">Yes, Delete</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast" role="status" aria-live="polite"></div>
+
+<script>
+"use strict";
+
+/* NEXBOOK: local data and utilities */
+const STORAGE_KEY = "nexbook_advanced_v2";
+
+const $ = id => document.getElementById(id);
+const today = () => {
+  const d = new Date();
+  return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;
+};
+const uid = () => Date.now().toString(36) + Math.random().toString(36).slice(2,9);
+const cleanText = value => String(value ?? "").trim();
+const escapeHTML = value => String(value ?? "").replace(/[&<>"']/g, ch => ({
+  "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+}[ch]));
+
+const defaults = () => ({
+  tasks: [],
+  transactions: [],
+  notes: [],
+  goals: [],
+  settings: { name:"", currency:"INR", theme:"dark" }
+});
+
+function loadData() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (!raw) return defaults();
+    const parsed = JSON.parse(raw);
+    const base = defaults();
+    return {
+      tasks: Array.isArray(parsed.tasks) ? parsed.tasks : [],
+      transactions: Array.isArray(parsed.transactions) ? parsed.transactions : [],
+      notes: Array.isArray(parsed.notes) ? parsed.notes : [],
+      goals: Array.isArray(parsed.goals) ? parsed.goals : [],
+      settings: {...base.settings, ...(parsed.settings || {})}
+    };
+  } catch (error) {
+    console.error("Could not load NEXBOOK data", error);
+    return defaults();
+  }
+}
+
+let db = loadData();
+let editingTaskId = null;
+let editingNoteId = null;
+let pendingAction = null;
+let toastTimer = null;
+
+function saveData() {
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(db));
+    return true;
+  } catch (error) {
+    console.error("Could not save NEXBOOK data", error);
+    showToast("Storage full or unavailable. Export a backup and free some space.");
+    return false;
+  }
+}
+
+function showToast(message) {
+  const toast = $("toast");
+  toast.textContent = message;
+  toast.style.display = "block";
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => toast.style.display = "none", 2800);
+}
+
+function money(amount) {
+  const currency = db.settings.currency || "INR";
+  try {
+    return new Intl.NumberFormat("en-IN", {
+      style:"currency", currency, maximumFractionDigits:2
+    }).format(Number(amount) || 0);
+  } catch {
+    return "₹" + (Number(amount) || 0).toFixed(2);
+  }
+}
+
+function formatDate(value) {
+  if (!value) return "No date";
+  const d = new Date(value + "T00:00:00");
+  return Number.isNaN(d.getTime()) ? value :
+    d.toLocaleDateString("en-IN",{day:"numeric",month:"short",year:"numeric"});
+}
+
+function totalByType(type) {
+  return db.transactions
+    .filter(t => t.type === type)
+    .reduce((sum,t) => sum + Number(t.amount || 0),0);
+}
+
+function emptyMessage(message) {
+  return `<div class="empty">${escapeHTML(message)}</div>`;
+}
+
+/* Navigation */
+function openPage(pageName) {
+  document.querySelectorAll(".page").forEach(p => {
+    p.classList.toggle("active", p.id === pageName);
+  });
+  document.querySelectorAll(".tab").forEach(tab => {
+    tab.classList.toggle("active", tab.dataset.page === pageName);
+  });
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+
+document.querySelectorAll(".tab").forEach(tab => {
+  tab.addEventListener("click", () => openPage(tab.dataset.page));
+});
+document.querySelectorAll("[data-go]").forEach(button => {
+  button.addEventListener("click", () => openPage(button.dataset.go));
+});
+
+/* Confirmation dialog: all destructive actions go through this */
+function askConfirmation(title, message, action, buttonText = "Yes, Delete") {
+  pendingAction = action;
+  $("confirmTitle").textContent = title;
+  $("confirmMessage").textContent = message;
+  $("confirmYes").textContent = buttonText;
+  $("confirmBackdrop").classList.add("open");
+  $("confirmNo").focus();
+}
+
+function closeConfirmation() {
+  $("confirmBackdrop").classList.remove("open");
+  pendingAction = null;
+}
+
+$("confirmNo").addEventListener("click", closeConfirmation);
+$("confirmYes").addEventListener("click", () => {
+  const action = pendingAction;
+  closeConfirmation();
+  if (typeof action === "function") action();
+});
+$("confirmBackdrop").addEventListener("click", event => {
+  if (event.target === $("confirmBackdrop")) closeConfirmation();
+});
+document.addEventListener("keydown", event => {
+  if (event.key === "Escape" && $("confirmBackdrop").classList.contains("open")) {
+    closeConfirmation();
+  }
+});
+
+/* Dashboard */
+function renderDashboard() {
+  const hour = new Date().getHours();
+  const greeting = hour < 12 ? "Good morning" : hour < 17 ? "Good afternoon" : "Good evening";
+  const name = cleanText(db.settings.name);
+  $("greeting").textContent = `${greeting}${name ? ", " + name : ""} 👋`;
+  $("todayText").textContent = new Date().toLocaleDateString("en-IN",{
+    weekday:"long",year:"numeric",month:"long",day:"numeric"
+  });
+
+  const todaysTasks = db.tasks.filter(t => t.date === today());
+  const done = todaysTasks.filter(t => t.done).length;
+  const percent = todaysTasks.length ? Math.round(done/todaysTasks.length*100) : 0;
+
+  $("statTasks").textContent = `${done}/${todaysTasks.length}`;
+  $("statGoals").textContent = db.goals.filter(g => !g.done).length;
+  $("statIncome").textContent = money(totalByType("income"));
+  $("statExpense").textContent = money(totalByType("expense"));
+  $("statBalance").textContent = money(totalByType("income") - totalByType("expense"));
+  $("taskProgress").style.width = percent + "%";
+  $("progressText").textContent = `Today's progress: ${percent}%`;
+
+  const recentTasks = [...todaysTasks].sort((a,b) =>
+    Number(a.done)-Number(b.done)
+  ).slice(0,5);
+
+  $("dashboardTasks").innerHTML = recentTasks.length ? recentTasks.map(t => `
+    <div class="item ${t.done?"done":""}">
+      <input class="check" type="checkbox" data-task-check="${escapeHTML(t.id)}"
+        ${t.done?"checked":""} aria-label="Mark task complete">
+      <div class="item-main">
+        <div class="item-title">${escapeHTML(t.title)}</div>
+        <span class="pill">${escapeHTML(t.priority || "Medium")}</span>
+      </div>
+    </div>
+  `).join("") : emptyMessage("No tasks for today. Add one in Daily Tasks!");
+
+  $("dashboardNotes").innerHTML = db.notes.length ? [...db.notes]
+    .sort((a,b) => (b.updatedAt||"").localeCompare(a.updatedAt||""))
+    .slice(0,3).map(n => `
+      <div class="item"><div class="item-main">
+        <div class="item-title">${escapeHTML(n.title)}</div>
+        <div class="item-desc">${escapeHTML((n.body||"").slice(0,100))}</div>
+      </div></div>
+    `).join("") : emptyMessage("Your saved notes will appear here.");
+
+  $("dashboardTasks").querySelectorAll("[data-task-check]").forEach(input => {
+    input.addEventListener("change", () => toggleTask(input.dataset.taskCheck));
+  });
+}
+
+/* Tasks */
+function resetTaskForm() {
+  editingTaskId = null;
+  $("taskForm").reset();
+  $("taskDate").value = today();
+  $("taskSubmit").textContent = "＋ Add Task";
+  $("taskCancel").hidden = true;
+}
+
+function renderTasks() {
+  const query = cleanText($("taskSearch").value).toLowerCase();
+  const filter = $("taskFilter").value;
+  const date = $("taskDateFilter").value;
+
+  let tasks = [...db.tasks].filter(t => {
+    const matchesText = [t.title,t.desc,t.category,t.priority]
+      .some(v => String(v||"").toLowerCase().includes(query));
+    const matchesStatus = filter === "all" ||
+      (filter === "done" && t.done) || (filter === "pending" && !t.done);
+    return matchesText && matchesStatus && (!date || t.date === date);
+  }).sort((a,b) => (b.date||"").localeCompare(a.date||"") ||
+    Number(a.done)-Number(b.done));
+
+  $("taskCount").textContent = `${db.tasks.length} task${db.tasks.length===1?"":"s"}`;
+
+  $("taskList").innerHTML = tasks.length ? tasks.map(t => `
+    <div class="item ${t.done?"done":""}">
+      <input class="check" type="checkbox" data-task-check="${escapeHTML(t.id)}"
+        ${t.done?"checked":""} aria-label="Mark task complete">
+      <div class="item-main">
+        <div class="item-title">${escapeHTML(t.title)}</div>
+        <div class="item-desc">${escapeHTML(t.desc || "No extra details")}</div>
+        <span class="pill">${escapeHTML(formatDate(t.date))}</span>
+        ${t.time?`<span class="pill">🕒 ${escapeHTML(t.time)}</span>`:""}
+        <span class="pill">${escapeHTML(t.category || "Personal")}</span>
+        <span class="pill ${t.priority==="High"?"bad":""}">${escapeHTML(t.priority||"Medium")} priority</span>
+        <span class="pill ${t.done?"good":"bad"}">${t.done?"Completed":"Pending"}</span>
+        <div class="item-actions">
+          <button class="btn small" data-task-edit="${escapeHTML(t.id)}">✏️ Edit</button>
+          <button class="btn small danger" data-task-delete="${escapeHTML(t.id)}">🗑 Delete</button>
+        </div>
+      </div>
+    </div>
+  `).join("") : emptyMessage("No tasks found. Add a new activity above.");
+
+  $("taskList").querySelectorAll("[data-task-check]").forEach(el =>
+    el.addEventListener("change", () => toggleTask(el.dataset.taskCheck)));
+  $("taskList").querySelectorAll("[data-task-edit]").forEach(el =>
+    el.addEventListener("click", () => editTask(el.dataset.taskEdit)));
+  $("taskList").querySelectorAll("[data-task-delete]").forEach(el =>
+    el.addEventListener("click", () => deleteTask(el.dataset.taskDelete)));
+}
+
+function toggleTask(id) {
+  const task = db.tasks.find(t => t.id === id);
+  if (!task) return;
+  task.done = !task.done;
+  saveData();
+  renderAll();
+  showToast(task.done ? "Task completed! 🎉" : "Task marked pending.");
+}
+
+function editTask(id) {
+  const task = db.tasks.find(t => t.id === id);
+  if (!task) return;
+  editingTaskId = id;
+  $("taskTitle").value = task.title || "";
+  $("taskDate").value = task.date || today();
+  $("taskPriority").value = task.priority || "Medium";
+  $("taskCategory").value = task.category || "Personal";
+  $("taskTime").value = task.time || "";
+  $("taskDesc").value = task.desc || "";
+  $("taskSubmit").textContent = "💾 Update Task";
+  $("taskCancel").hidden = false;
+  openPage("tasks");
+  $("taskTitle").focus();
+}
+
+function deleteTask(id) {
+  const task = db.tasks.find(t => t.id === id);
+  if (!task) return;
+  askConfirmation("Delete this task?", `“${task.title}” will be removed permanently from this device.`, () => {
+    db.tasks = db.tasks.filter(t => t.id !== id);
+    saveData();
+    if (editingTaskId === id) resetTaskForm();
+    renderAll();
+    showToast("Task deleted.");
+  });
+}
+
+$("taskForm").addEventListener("submit", event => {
+  event.preventDefault();
+  const title = cleanText($("taskTitle").value);
+  if (!title) return showToast("Please enter a task name.");
+
+  const item = {
+    title,
+    date:$("taskDate").value || today(),
+    priority:$("taskPriority").value,
+    category:$("taskCategory").value,
+    time:$("taskTime").value,
+    desc:cleanText($("taskDesc").value),
+    done:false
+  };
+
+  if (editingTaskId) {
+    const existing = db.tasks.find(t => t.id === editingTaskId);
+    if (!existing) return resetTaskForm();
+    Object.assign(existing,item,{done:existing.done});
+    showToast("Task updated successfully.");
+  } else {
+    db.tasks.push({id:uid(),...item,createdAt:new Date().toISOString()});
+    showToast("New task added! ✅");
+  }
+
+  saveData();
+  resetTaskForm();
+  renderAll();
+});
+
+$("taskCancel").addEventListener("click", resetTaskForm);
+["taskSearch","taskFilter","taskDateFilter"].forEach(id => {
+  $(id).addEventListener(id==="taskSearch"?"input":"change",renderTasks);
+});
+$("clearTaskFilters").addEventListener("click", () => {
+  $("taskSearch").value="";
+  $("taskFilter").value="all";
+  $("taskDateFilter").value="";
+  renderTasks();
+});
+
+/* Finance */
+function renderFinance() {
+  const income = totalByType("income");
+  const expense = totalByType("expense");
+  $("finIncome").textContent = money(income);
+  $("finExpense").textContent = money(expense);
+  $("finBalance").textContent = money(income-expense);
+  $("finCount").textContent = db.transactions.length;
+
+  const query = cleanText($("finSearch").value).toLowerCase();
+  const filter = $("finFilter").value;
+  const transactions = [...db.transactions].filter(t =>
+    (filter==="all" || t.type===filter) &&
+    [t.desc,t.category,t.date,t.type].some(v =>
+      String(v||"").toLowerCase().includes(query))
+  ).sort((a,b) => (b.date||"").localeCompare(a.date||""));
+
+  $("financeList").innerHTML = transactions.length ? transactions.map(t => `
+    <div class="item">
+      <div class="item-main">
+        <div class="item-title">${escapeHTML(t.desc)}</div>
+        <div class="item-desc">${escapeHTML(formatDate(t.date))} • ${escapeHTML(t.category)}</div>
+        <span class="pill ${t.type==="income"?"good":"bad"}">${t.type==="income"?"Income":"Expense"}</span>
+        <div class="item-actions">
+          <button class="btn small" data-fin-edit="${escapeHTML(t.id)}">✏️ Edit</button>
+          <button class="btn small danger" data-fin-delete="${escapeHTML(t.id)}">🗑 Delete</button>
+        </div>
+      </div>
+      <div class="money ${t.type==="income"?"in":"out"}">${t.type==="income"?"+":"−"}${escapeHTML(money(t.amount))}</div>
+    </div>
+  `).join("") : emptyMessage("No transactions yet. Add your first income or expense.");
+
+  $("financeList").querySelectorAll("[data-fin-delete]").forEach(el =>
+    el.addEventListener("click", () => deleteTransaction(el.dataset.finDelete)));
+  $("financeList").querySelectorAll("[data-fin-edit]").forEach(el =>
+    el.addEventListener("click", () => editTransaction(el.dataset.finEdit)));
+}
+
+$("financeForm").addEventListener("submit", event => {
+  event.preventDefault();
+  const amount = Number($("finAmount").value);
+  const desc = cleanText($("finDesc").value);
+  if (!Number.isFinite(amount) || amount <= 0 || !desc) {
+    return showToast("Enter a valid amount and description.");
+  }
+  db.transactions.push({
+    id:uid(),type:$("finType").value,amount,
+    category:$("finCategory").value,
+    date:$("finDate").value||today(),desc,
+    createdAt:new Date().toISOString()
+  });
+  saveData();
+  $("financeForm").reset();
+  $("finDate").value=today();
+  renderAll();
+  showToast("Transaction saved successfully.");
+});
+
+function deleteTransaction(id) {
+  const transaction = db.transactions.find(t => t.id===id);
+  if (!transaction) return;
+  askConfirmation("Delete transaction?", `${transaction.desc} — ${money(transaction.amount)} will be removed.`, () => {
+    db.transactions=db.transactions.filter(t=>t.id!==id);
+    saveData();renderAll();showToast("Transaction deleted.");
+  });
+}
+
+function editTransaction(id) {
+  const t=db.transactions.find(x=>x.id===id);
+  if (!t) return;
+  const newDesc=prompt("Edit description:",t.desc);
+  if (newDesc===null) return;
+  if (!cleanText(newDesc)) return showToast("Description cannot be empty.");
+  const amountText=prompt("Edit amount:",String(t.amount));
+  if (amountText===null) return;
+  const amount=Number(amountText);
+  if (!Number.isFinite(amount)||amount<=0) return showToast("Invalid amount.");
+  t.desc=cleanText(newDesc);
+  t.amount=amount;
+  saveData();renderAll();showToast("Transaction updated.");
+}
+$("finSearch").addEventListener("input",renderFinance);
+$("finFilter").addEventListener("change",renderFinance);
+
+/* Notes */
+function resetNoteForm() {
+  editingNoteId=null;
+  $("noteForm").reset();
+  $("noteSubmit").textContent="＋ Save Note";
+  $("noteCancel").hidden=true;
+}
+function renderNotes() {
+  const q=cleanText($("noteSearch").value).toLowerCase();
+  const notes=[...db.notes].filter(n =>
+    [n.title,n.body].some(v=>String(v||"").toLowerCase().includes(q))
+  ).sort((a,b)=>(b.updatedAt||"").localeCompare(a.updatedAt||""));
+
+  $("noteList").innerHTML=notes.length?notes.map(n=>`
+    <div class="item">
+      <div class="item-main">
+        <div class="item-title">${escapeHTML(n.title)}</div>
+        <div class="item-desc note-card">${escapeHTML(n.body)}</div>
+        <div class="muted" style="margin-top:8px">Updated: ${escapeHTML(new Date(n.updatedAt||Date.now()).toLocaleString("en-IN"))}</div>
+        <div class="item-actions">
+          <button class="btn small" data-note-edit="${escapeHTML(n.id)}">✏️ Edit</button>
+          <button class="btn small danger" data-note-delete="${escapeHTML(n.id)}">🗑 Delete</button>
+        </div>
+      </div>
+    </div>`).join(""):emptyMessage("No notes found. Save your first note above.");
+
+  $("noteList").querySelectorAll("[data-note-edit]").forEach(el =>
+    el.addEventListener("click",()=>editNote(el.dataset.noteEdit)));
+  $("noteList").querySelectorAll("[data-note-delete]").forEach(el =>
+    el.addEventListener("click",()=>deleteNote(el.dataset.noteDelete)));
+}
+$("noteForm").addEventListener("submit",event=>{
+  event.preventDefault();
+  const title=cleanText($("noteTitle").value);
+  const body=cleanText($("noteBody").value);
+  if(!title||!body)return showToast("Enter both a title and note.");
+  const now=new Date().toISOString();
+  if(editingNoteId){
+    const n=db.notes.find(x=>x.id===editingNoteId);
+    if(n)Object.assign(n,{title,body,updatedAt:now});
+    showToast("Note updated.");
+  }else{
+    db.notes.push({id:uid(),title,body,createdAt:now,updatedAt:now});
+    showToast("Note saved successfully.");
+  }
+  saveData();resetNoteForm();renderAll();
+});
+function editNote(id){
+  const n=db.notes.find(x=>x.id===id);
+  if(!n)return;
+  editingNoteId=id;
+  $("noteTitle").value=n.title;
+  $("noteBody").value=n.body;
+  $("noteSubmit").textContent="💾 Update Note";
+  $("noteCancel").hidden=false;
+  openPage("notes");
+  $("noteTitle").focus();
+}
+function deleteNote(id){
+  const n=db.notes.find(x=>x.id===id);
+  if(!n)return;
+  askConfirmation("Delete this note?",`“${n.title}” will be permanently removed.`,()=>{
+    db.notes=db.notes.filter(x=>x.id!==id);
+    if(editingNoteId===id)resetNoteForm();
+    saveData();renderAll();showToast("Note deleted.");
+  });
+}
+$("noteCancel").addEventListener("click",resetNoteForm);
+$("noteSearch").addEventListener("input",renderNotes);
+
+/* Goals */
+function renderGoals(){
+  const goals=[...db.goals].sort((a,b)=>Number(a.done)-Number(b.done));
+  $("goalList").innerHTML=goals.length?goals.map(g=>`
+    <div class="item ${g.done?"done":""}">
+      <input class="check" type="checkbox" data-goal-check="${escapeHTML(g.id)}"
+        ${g.done?"checked":""} aria-label="Mark goal complete">
+      <div class="item-main">
+        <div class="item-title">${escapeHTML(g.title)}</div>
+        <div class="item-desc">${escapeHTML(g.desc||"Keep moving forward, one step at a time.")}</div>
+        <span class="pill">${escapeHTML(g.category||"Personal")}</span>
+        ${g.target?`<span class="pill">Target: ${escapeHTML(formatDate(g.target))}</span>`:""}
+        <span class="pill ${g.done?"good":"bad"}">${g.done?"Completed":"In progress"}</span>
+        <div class="item-actions"><button class="btn small danger" data-goal-delete="${escapeHTML(g.id)}">🗑 Delete Goal</button></div>
+      </div>
+    </div>`).join(""):emptyMessage("Set a goal to start tracking your progress.");
+
+  $("goalList").querySelectorAll("[data-goal-check]").forEach(el=>
+    el.addEventListener("change",()=>{
+      const g=db.goals.find(x=>x.id===el.dataset.goalCheck);
+      if(g){g.done=el.checked;saveData();renderAll();showToast(g.done?"Goal achieved! 🎉":"Goal reopened.");}
+    }));
+  $("goalList").querySelectorAll("[data-goal-delete]").forEach(el=>
+    el.addEventListener("click",()=>deleteGoal(el.dataset.goalDelete)));
+}
+$("goalForm").addEventListener("submit",event=>{
+  event.preventDefault();
+  const title=cleanText($("goalTitle").value);
+  if(!title)return showToast("Enter a goal name.");
+  db.goals.push({
+    id:uid(),title,target:$("goalTarget").value,
+    category:$("goalCategory").value,desc:cleanText($("goalDesc").value),
+    done:false,createdAt:new Date().toISOString()
+  });
+  saveData();$("goalForm").reset();renderAll();showToast("New goal added! 🎯");
+});
+function deleteGoal(id){
+  const g=db.goals.find(x=>x.id===id);
+  if(!g)return;
+  askConfirmation("Delete this goal?",`“${g.title}” will be permanently removed.`,()=>{
+    db.goals=db.goals.filter(x=>x.id!==id);
+    saveData();renderAll();showToast("Goal deleted.");
+  });
+}
+
+/* Theme and settings */
+function applyTheme(){
+  document.body.classList.toggle("light",db.settings.theme==="light");
+  $("themeBtn").textContent=db.settings.theme==="light"?"🌙 Dark":"☀️ Light";
+}
+$("themeBtn").addEventListener("click",()=>{
+  db.settings.theme=db.settings.theme==="light"?"dark":"light";
+  saveData();applyTheme();
+});
+$("profileForm").addEventListener("submit",event=>{
+  event.preventDefault();
+  db.settings.name=cleanText($("userName").value).slice(0,60);
+  db.settings.currency=$("currencySelect").value;
+  saveData();renderAll();showToast("Settings saved.");
+});
+
+/* Export and import backup */
+function exportBackup(){
+  const blob=new Blob([JSON.stringify({
+    app:"NEXBOOK",version:2,exportedAt:new Date().toISOString(),data:db
+  },null,2)],{type:"application/json"});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement("a");
+  a.href=url;
+  a.download=`nexbook-backup-${today()}.json`;
+  document.body.appendChild(a);
+  a.click();a.remove();
+  setTimeout(()=>URL.revokeObjectURL(url),1000);
+  showToast("Backup export started.");
+}
+$("exportBtn").addEventListener("click",exportBackup);
+$("exportBtn2").addEventListener("click",exportBackup);
+function chooseBackup(){$("importFile").click();}
+$("importBtn").addEventListener("click",chooseBackup);
+$("importBtn2").addEventListener("click",chooseBackup);
+
+$("importFile").addEventListener("change",async event=>{
+  const file=event.target.files[0];
+  if(!file)return;
+  try{
+    const parsed=JSON.parse(await file.text());
+    const candidate=parsed.data||parsed;
+    const valid= candidate &&
+      Array.isArray(candidate.tasks) &&
+      Array.isArray(candidate.transactions) &&
+      Array.isArray(candidate.notes) &&
+      Array.isArray(candidate.goals) &&
+      typeof candidate.settings==="object";
+
+    if(!valid)throw new Error("This file does not look like a NEXBOOK backup.");
+
+    askConfirmation("Restore backup?", "Restoring will replace all current tasks, transactions, notes, goals and settings with the backup data.",()=>{
+      db={
+        tasks:candidate.tasks,
+        transactions:candidate.transactions,
+        notes:candidate.notes,
+        goals:candidate.goals,
+        settings:{...defaults().settings,...candidate.settings}
+      };
+      saveData();applyTheme();syncSettings();renderAll();
+      showToast("Backup restored successfully.");
+    },"Yes, Restore");
+  }catch(error){
+    showToast("Could not restore: "+error.message);
+  }finally{
+    event.target.value="";
+  }
+});
+
+/* Reset is also protected by Yes / No */
+$("resetBtn").addEventListener("click",()=>{
+  askConfirmation("Reset all NEXBOOK data?",
+    "This removes every task, transaction, note, goal and setting from this browser. Export a backup first if needed.",
+    ()=>{
+      db=defaults();
+      saveData();applyTheme();syncSettings();
+      resetTaskForm();resetNoteForm();renderAll();
+      showToast("NEXBOOK data reset.");
+    },"Yes, Reset Everything");
+});
+
+function syncSettings(){
+  $("userName").value=db.settings.name||"";
+  $("currencySelect").value=db.settings.currency||"INR";
+}
+
+/* Render all sections */
+function renderAll(){
+  renderDashboard();
+  renderTasks();
+  renderFinance();
+  renderNotes();
+  renderGoals();
+}
+
+/* Start application */
+function init(){
+  $("taskDate").value=today();
+  $("finDate").value=today();
+  applyTheme();
+  syncSettings();
+  renderAll();
+}
+init();
+</script>
+</body>
+</html>
